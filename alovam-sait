@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الو وام | ماشین حساب اقساط</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;padding:20px;
+ font-family:Tahoma,Arial,sans-serif;
+ background:linear-gradient(135deg,#07182f,#142f50);
+ color:#fff;min-height:100vh
+}
+.container{
+ max-width:480px;margin:25px auto;
+ background:#fff;color:#172b46;
+ border-radius:22px;padding:25px;
+ box-shadow:0 10px 35px #0005
+}
+.logo{text-align:center;color:#c69b39;font-size:29px;font-weight:bold}
+.sub{text-align:center;color:#64748b;margin:8px 0 25px}
+label{display:block;margin:16px 0 8px;font-weight:bold}
+input,select{
+ width:100%;padding:14px;border:1px solid #d5dce5;
+ border-radius:10px;font-size:17px;background:#f8fafc
+}
+button{
+ width:100%;padding:15px;margin-top:22px;
+ background:#c69b39;color:#fff;border:0;
+ border-radius:11px;font-size:18px;font-weight:bold
+}
+.result{
+ display:none;background:#f1f5f9;
+ padding:16px;border-radius:13px;margin-top:20px
+}
+.line{display:flex;justify-content:space-between;
+ padding:11px 0;border-bottom:1px solid #ddd;gap:8px}
+.amount{color:#b18422;font-weight:bold}
+.footer{text-align:center;margin-top:22px;color:#64748b;font-size:14px}
+</style>
+</head>
+<body>
+<div class="container">
+ <div class="logo">الو وام</div>
+ <div class="sub">محاسبه آنلاین اقساط وام</div>
+
+ <label>مبلغ وام (تومان)</label>
+ <input id="amount" type="text" inputmode="numeric" placeholder="مثلاً 100000000">
+
+ <label>سود ماهانه (درصد)</label>
+ <select id="rate">
+  <option value="1">۱ درصد</option>
+  <option value="1.5">۱.۵ درصد</option>
+  <option value="2" selected>۲ درصد</option>
+  <option value="2.5">۲.۵ درصد</option>
+  <option value="3">۳ درصد</option>
+  <option value="4">۴ درصد</option>
+  <option value="5">۵ درصد</option>
+ </select>
+
+ <label>تعداد اقساط (ماه)</label>
+ <select id="months">
+  <option value="6">۶ ماه</option>
+  <option value="12">۱۲ ماه</option>
+  <option value="18">۱۸ ماه</option>
+  <option value="24" selected>۲۴ ماه</option>
+  <option value="36">۳۶ ماه</option>
+  <option value="48">۴۸ ماه</option>
+  <option value="60">۶۰ ماه</option>
+ </select>
+
+ <button onclick="calculate()">محاسبه اقساط</button>
+
+ <div class="result" id="result">
+  <div class="line"><span>مبلغ هر قسط</span><span class="amount" id="installment"></span></div>
+  <div class="line"><span>مجموع سود</span><span id="interest"></span></div>
+  <div class="line"><span>مجموع بازپرداخت</span><span id="total"></span></div>
+ </div>
+
+ <div class="footer">
+  الو وام | الو سیم‌کارت<br>
+  تماس: 09126857310
+ </div>
+</div>
+
+<script>
+function calculate(){
+ const raw=document.getElementById('amount').value;
+ const amount=Number(raw.replace(/[^\d]/g,''));
+ const rate=Number(document.getElementById('rate').value);
+ const months=Number(document.getElementById('months').value);
+
+ if(!amount || amount<=0){
+  alert('لطفاً مبلغ وام را درست وارد کنید');
+  return;
+ }
+
+ const interest=amount*rate/100*months;
+ const total=amount+interest;
+ const installment=total/months;
+
+ const money=n=>Math.round(n).toLocaleString('fa-IR')+' تومان';
+
+ document.getElementById('installment').textContent=money(installment);
+ document.getElementById('interest').textContent=money(interest);
+ document.getElementById('total').textContent=money(total);
+ document.getElementById('result').style.display='block';
+}
+</script>
+</body>
+</html>
